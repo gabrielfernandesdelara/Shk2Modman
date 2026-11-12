@@ -17,6 +17,7 @@ namespace Shrek2ModManager
         readonly Label lblStatus = new Label();
         readonly Button btnRefresh = new Button();
         readonly Button btnModsFolder = new Button();
+        readonly Button btnRestore = new Button();
         readonly Button btnPlay = new Button();
         readonly Button btnApply = new Button();
 
@@ -40,10 +41,12 @@ namespace Shrek2ModManager
         {
             Text = T.S("title");
             Font = new Font("Segoe UI", 9f);
+            try { Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath); }
+            catch (Exception) { /* sem icone: usa o padrao do Windows */ }
             AutoScaleDimensions = new SizeF(96f, 96f);
             AutoScaleMode = AutoScaleMode.Dpi;
-            ClientSize = new Size(760, 520);
-            MinimumSize = new Size(620, 420);
+            ClientSize = new Size(820, 520);
+            MinimumSize = new Size(760, 420);
             StartPosition = FormStartPosition.CenterScreen;
 
             TableLayoutPanel root = new TableLayoutPanel();
@@ -104,27 +107,30 @@ namespace Shrek2ModManager
             root.Controls.Add(txtDescription, 0, 2);
 
             // linha 4: mensagem e botoes
-            TableLayoutPanel bottom = NewRow(5);
+            TableLayoutPanel bottom = NewRow(6);
             bottom.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f));
-            for (int i = 0; i < 4; i++) bottom.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            for (int i = 0; i < 5; i++) bottom.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
             lblStatus.AutoSize = false;
             lblStatus.Dock = DockStyle.Fill;
             lblStatus.TextAlign = ContentAlignment.MiddleLeft;
             lblStatus.AutoEllipsis = true;
             SetupButton(btnRefresh, "refresh");
             SetupButton(btnModsFolder, "modsFolder");
+            SetupButton(btnRestore, "restore");
             SetupButton(btnPlay, "play");
             SetupButton(btnApply, "apply");
             btnApply.Font = new Font(Font, FontStyle.Bold);
             btnRefresh.Click += delegate { LoadEverything(false); };
             btnModsFolder.Click += delegate { OpenModsFolder(); };
+            btnRestore.Click += delegate { RestoreOriginal(); };
             btnPlay.Click += delegate { StartGame(); };
             btnApply.Click += delegate { ApplyChanges(); };
             bottom.Controls.Add(lblStatus, 0, 0);
             bottom.Controls.Add(btnRefresh, 1, 0);
             bottom.Controls.Add(btnModsFolder, 2, 0);
-            bottom.Controls.Add(btnPlay, 3, 0);
-            bottom.Controls.Add(btnApply, 4, 0);
+            bottom.Controls.Add(btnRestore, 3, 0);
+            bottom.Controls.Add(btnPlay, 4, 0);
+            bottom.Controls.Add(btnApply, 5, 0);
             root.Controls.Add(bottom, 0, 3);
 
             AcceptButton = btnApply;
@@ -242,6 +248,7 @@ namespace Shrek2ModManager
             }
             btnApply.Enabled = pending;
             btnPlay.Enabled = exePath != null;
+            btnRestore.Enabled = GameExe.HasBackup(exePath);
             if (exePath == null) lblStatus.Text = T.S("noGame");
             else if (mods.Count == 0) lblStatus.Text = T.S("noMods");
             else lblStatus.Text = T.S(pending ? "pending" : "ready");
@@ -328,6 +335,34 @@ namespace Shrek2ModManager
 
             RefreshStates();
             if (message != null) lblStatus.Text = message;
+        }
+
+        /// <summary>Volta o Shrek.exe para o backup original, depois de confirmar.</summary>
+        void RestoreOriginal()
+        {
+            if (!GameExe.HasBackup(exePath)) return;
+            if (Process.GetProcessesByName("Shrek").Length > 0)
+            {
+                MessageBox.Show(this, T.S("closeGame"), Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            DialogResult answer = MessageBox.Show(this, T.S("restoreAsk"), T.S("restore"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+            if (answer != DialogResult.Yes) return;
+
+            bool done = false;
+            try
+            {
+                GameExe.RestoreBackup(exePath);
+                settings.Enabled = new List<string>();
+                settings.Save();
+                done = true;
+            }
+            catch (ModManagerException ex)
+            {
+                MessageBox.Show(this, T.S(ex.Key) + "\n\n" + ex.Detail, Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            RefreshStates();
+            if (done) lblStatus.Text = T.S("restoreDone");
         }
 
         /// <summary>Se a Steam desfez mods que estavam instalados, pergunta se quer reinstalar.</summary>

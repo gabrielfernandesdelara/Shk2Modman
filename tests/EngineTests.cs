@@ -61,6 +61,16 @@ static class EngineTests
         GameExe.ApplySelection(exe, mods, new List<string>());
         Check(Hash(exe) == original, "remover tudo devolve o exe original");
 
+        // restaurar o backup desfaz tudo, inclusive alteracoes de fora
+        GameExe.ApplySelection(exe, mods, new List<string> { mods[0].Id, mods[2].Id });
+        byte[] dirty = File.ReadAllBytes(exe);
+        dirty[dirty.Length - 1] ^= 0xFF;
+        File.WriteAllBytes(exe, dirty);
+        Check(GameExe.HasBackup(exe), "backup existe");
+        GameExe.RestoreBackup(exe);
+        Check(Hash(exe) == original, "restaurar o backup devolve o exe original");
+        Check(!GameExe.HasBackup(exe + ".nao-existe"), "sem backup, HasBackup e falso");
+
         // exe de outra versao: recusa e nao grava nada
         byte[] bytes = File.ReadAllBytes(exe);
         int offset = PatchEngine.RvaToOffset(bytes, mods[0].Patches[0].Rva);

@@ -150,6 +150,19 @@ namespace Shrek2ModManager
     {
         public const string BackupSuffix = ".original";
 
+        public static bool HasBackup(string exePath)
+        {
+            return exePath != null && File.Exists(exePath + BackupSuffix);
+        }
+
+        /// <summary>Copia o Shrek.exe.original por cima do Shrek.exe, desfazendo qualquer alteracao.</summary>
+        public static void RestoreBackup(string exePath)
+        {
+            try { File.Copy(exePath + BackupSuffix, exePath, true); }
+            catch (IOException ex) { throw new ModManagerException("errWrite", ex.Message); }
+            catch (UnauthorizedAccessException ex) { throw new ModManagerException("errWrite", ex.Message); }
+        }
+
         public static Dictionary<string, ModState> ReadStates(string exePath, IList<ModDef> mods)
         {
             byte[] exe = File.ReadAllBytes(exePath);

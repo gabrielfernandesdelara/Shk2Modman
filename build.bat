@@ -10,7 +10,7 @@ if not exist "%CSC%" (
 cd /d "%~dp0"
 if not exist dist mkdir dist
 "%CSC%" /nologo /codepage:65001 /target:winexe /platform:anycpu /optimize+ ^
-  /win32manifest:src\app.manifest ^
+  /win32manifest:src\app.manifest /win32icon:src\app.ico ^
   /r:System.dll /r:System.Core.dll /r:System.Drawing.dll /r:System.Windows.Forms.dll /r:System.Web.Extensions.dll ^
   /out:dist\Shrek2ModManager.exe ^
   src\Program.cs src\MainForm.cs src\PatchEngine.cs src\ModLoader.cs src\SteamLocator.cs src\Settings.cs src\Texts.cs
