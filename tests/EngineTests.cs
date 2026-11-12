@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
-using Shrek2ModManager;
+using Shk2Modman;
 
 // Teste do motor de patches, sem tela. Uso:
 //   EngineTests.exe <pasta mods> <copia do Shrek.exe ORIGINAL>

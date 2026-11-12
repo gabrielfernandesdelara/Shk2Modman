@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace Shrek2ModManager
+namespace Shk2Modman
 {
     static class Program
     {

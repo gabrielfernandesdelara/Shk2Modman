@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="assets/images/readme/icon.png" alt="Shrek2ModManager icon" width="110" />
+<img src="assets/images/readme/icon.png" alt="Shk2Modman icon" width="110" />
 
-<h1>Shrek2ModManager</h1>
+<h1>Shk2Modman</h1>
 
 <p>Mod manager for Shrek 2 Remastered (Steam version).<br/>
 Tick the mods you want, click Apply, and you are done.</p>
@@ -10,14 +10,14 @@ Tick the mods you want, click Apply, and you are done.</p>
 <p><a href="README.md">Português</a> · <strong>English</strong></p>
 
 <p>
-  <a href="https://github.com/gabrielfernandesdelara/Shrek2ModManager/issues/new">Report a bug</a>
+  <a href="https://github.com/gabrielfernandesdelara/Shk2Modman/issues/new">Report a bug</a>
   ·
-  <a href="https://github.com/gabrielfernandesdelara/Shrek2ModManager/issues/new">Suggest a feature</a>
+  <a href="https://github.com/gabrielfernandesdelara/Shk2Modman/issues/new">Suggest a feature</a>
 </p>
 
 <p>
   <img src="https://img.shields.io/badge/status-in%20development-yellow?style=for-the-badge" alt="Status" />
-  <img src="https://img.shields.io/github/last-commit/gabrielfernandesdelara/Shrek2ModManager?style=for-the-badge&label=last%20commit" alt="Last commit" />
+  <img src="https://img.shields.io/github/last-commit/gabrielfernandesdelara/Shk2Modman?style=for-the-badge&label=last%20commit" alt="Last commit" />
 </p>
 
 </div>
@@ -42,11 +42,11 @@ Tick the mods you want, click Apply, and you are done.</p>
 ## About the project
 
 <div align="center">
-  <img src="assets/images/readme/screenshot.png" alt="Shrek2ModManager window" width="80%" />
-  <p><sub><em>Main window, shown here in Portuguese. The interface follows the Windows language and is also available in English.</em></sub></p>
+  <img src="assets/images/readme/screenshot.png" alt="Shk2Modman window" width="80%" />
+  <p><sub><em>Main window. The layout may change.</em></sub></p>
 </div>
 
-The Shrek 2 Remastered mods in this project work by changing a few bytes of `Shrek.exe`. Doing that with `.bat` and `.ps1` scripts is awkward for whoever installs them, and automated filters on mod sites often block those files. Shrek2ModManager replaces the scripts with a simple window: it finds the game through Steam, shows the list of mods with checkboxes, and installs or removes each one with a click.
+The Shrek 2 Remastered mods in this project work by changing a few bytes of `Shrek.exe`. Doing that with `.bat` and `.ps1` scripts is awkward for whoever installs them, and automated filters on mod sites often block those files. Shk2Modman replaces the scripts with a simple window: it finds the game through Steam, shows the list of mods with checkboxes, and installs or removes each one with a click.
 
 Each mod is a `.json` file in the `mods` folder, holding the address of each patched spot, the original bytes and the new bytes. The program downloads nothing, never goes online and ships no game files: it only changes the `Shrek.exe` already installed on the computer, after saving a copy of the original.
 
@@ -60,7 +60,7 @@ Each mod is a `.json` file in the `mods` folder, holding the address of each pat
 - Warns when two mods change the same part of the game and does not let you tick both
 - Does not apply changes while the game is running
 - Remembers the installed mods and offers to reinstall them when a Steam update or file verification undoes the patches
-- Interface in **English and Portuguese**, chosen from the Windows language
+- Interface in **English and Portuguese**: it follows the Windows language and can be switched in the window itself
 - Small executable, no installer and no dependencies besides the .NET Framework 4.8 that ships with Windows 10 and 11
 
 ## Official mods
@@ -76,11 +76,11 @@ The project comes with **3 official mods**, made for the Steam version of the ga
 ## How to add/create mods
 
 > **Warning: use third-party mods at your own risk.**
-> Only the official mods, the ones in the `mods` folder of this repository, have been reviewed and are considered safe. A mod tells the program which bytes to write into the game executable, so a malicious mod can put harmful code inside `Shrek.exe`. Shrek2ModManager checks the game version, makes a backup and warns about conflicts, but it cannot tell whether the bytes of a mod do something bad. Only install mods from sources you trust.
+> Only the official mods, the ones in the `mods` folder of this repository, have been reviewed and are considered safe. A mod tells the program which bytes to write into the game executable, so a malicious mod can put harmful code inside `Shrek.exe`. Shk2Modman checks the game version, makes a backup and warns about conflicts, but it cannot tell whether the bytes of a mod do something bad. Only install mods from sources you trust.
 
 ### Using a mod made by someone else
 
-1. Put the mod's `.json` file in the `mods` folder, next to `Shrek2ModManager.exe`.
+1. Put the mod's `.json` file in the `mods` folder, next to `Shk2Modman.exe`.
 2. Click "Refresh". The mod shows up in the list.
 3. Tick its checkbox and click "Apply".
 
@@ -139,16 +139,16 @@ You do not need Visual Studio or an SDK: `build.bat` uses the C# compiler (`csc.
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/gabrielfernandesdelara/Shrek2ModManager.git
+git clone https://github.com/gabrielfernandesdelara/Shk2Modman.git
 
 # 2. Enter the folder
-cd Shrek2ModManager
+cd Shk2Modman
 
-# 3. Build (creates dist\Shrek2ModManager.exe and copies the mods to dist\mods)
+# 3. Build (creates dist\Shk2Modman.exe and copies the mods to dist\mods)
 build.bat
 
 # 4. Open the program
-dist\Shrek2ModManager.exe
+dist\Shk2Modman.exe
 ```
 
 After applying the mods, start the game through Steam or the "Start game" button. The game does not open when `Shrek.exe` is run directly.
@@ -158,7 +158,7 @@ The file `tests\EngineTests.cs` tests the patch engine without the window. It ta
 ## Folder structure
 
 ```
-Shrek2ModManager/
+Shk2Modman/
 ├── build.bat              # Builds the program with the Windows csc.exe
 ├── mods/                  # One .json file per official mod
 │   ├── cutscene-sem-barras.json

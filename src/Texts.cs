@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace Shrek2ModManager
+namespace Shk2Modman
 {
     /// <summary>Textos da tela em ingles e portugues. O idioma vem do Windows.</summary>
     public static class T
@@ -11,8 +11,9 @@ namespace Shrek2ModManager
         // chave -> { ingles, portugues }
         static readonly Dictionary<string, string[]> Texts = new Dictionary<string, string[]>
         {
-            { "title", new[] { "Shrek 2 Remastered - Mod Manager", "Shrek 2 Remastered - Gerenciador de Mods" } },
+            { "title", new[] { "Shk2Modman - Shrek 2 Remastered Mod Manager", "Shk2Modman - Gerenciador de Mods do Shrek 2 Remastered" } },
             { "game", new[] { "Game:", "Jogo:" } },
+            { "language", new[] { "Language:", "Idioma:" } },
             { "browse", new[] { "Browse...", "Procurar..." } },
             { "colMod", new[] { "Mod", "Mod" } },
             { "colState", new[] { "Status", "Estado" } },

@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="assets/images/readme/icon.png" alt="Ícone do Shrek2ModManager" width="110" />
+<img src="assets/images/readme/icon.png" alt="Ícone do Shk2Modman" width="110" />
 
-<h1>Shrek2ModManager</h1>
+<h1>Shk2Modman</h1>
 
 <p>Gerenciador de mods para o Shrek 2 Remastered (versão Steam).<br/>
 Marque os mods que quiser, clique em Aplicar e pronto.</p>
@@ -10,14 +10,14 @@ Marque os mods que quiser, clique em Aplicar e pronto.</p>
 <p><strong>Português</strong> · <a href="README.en.md">English</a></p>
 
 <p>
-  <a href="https://github.com/gabrielfernandesdelara/Shrek2ModManager/issues/new">Reportar um bug</a>
+  <a href="https://github.com/gabrielfernandesdelara/Shk2Modman/issues/new">Reportar um bug</a>
   ·
-  <a href="https://github.com/gabrielfernandesdelara/Shrek2ModManager/issues/new">Sugerir uma funcionalidade</a>
+  <a href="https://github.com/gabrielfernandesdelara/Shk2Modman/issues/new">Sugerir uma funcionalidade</a>
 </p>
 
 <p>
   <img src="https://img.shields.io/badge/status-em%20desenvolvimento-yellow?style=for-the-badge" alt="Status" />
-  <img src="https://img.shields.io/github/last-commit/gabrielfernandesdelara/Shrek2ModManager?style=for-the-badge&label=%C3%BAltimo%20commit" alt="Último commit" />
+  <img src="https://img.shields.io/github/last-commit/gabrielfernandesdelara/Shk2Modman?style=for-the-badge&label=%C3%BAltimo%20commit" alt="Último commit" />
 </p>
 
 </div>
@@ -42,11 +42,11 @@ Marque os mods que quiser, clique em Aplicar e pronto.</p>
 ## Sobre o projeto
 
 <div align="center">
-  <img src="assets/images/readme/screenshot.png" alt="Janela do Shrek2ModManager" width="80%" />
+  <img src="assets/images/readme/screenshot.png" alt="Janela do Shk2Modman" width="80%" />
   <p><sub><em>Janela principal. O layout pode sofrer alterações.</em></sub></p>
 </div>
 
-Os mods do Shrek 2 Remastered deste projeto funcionam trocando alguns bytes do `Shrek.exe`. Fazer isso com scripts `.bat` e `.ps1` é chato para quem instala e costuma ser barrado por filtros automáticos de sites de mods. O Shrek2ModManager resolve isso com uma janela simples: ele encontra o jogo pela Steam, mostra a lista de mods com caixinhas e instala ou remove cada um com um clique.
+Os mods do Shrek 2 Remastered deste projeto funcionam trocando alguns bytes do `Shrek.exe`. Fazer isso com scripts `.bat` e `.ps1` é chato para quem instala e costuma ser barrado por filtros automáticos de sites de mods. O Shk2Modman resolve isso com uma janela simples: ele encontra o jogo pela Steam, mostra a lista de mods com caixinhas e instala ou remove cada um com um clique.
 
 Cada mod é um arquivo `.json` na pasta `mods`, contendo o endereço de cada trecho, os bytes originais e os bytes novos. O programa não baixa nada, não acessa a internet e não inclui nenhum arquivo do jogo: ele só altera o `Shrek.exe` que já está instalado no computador, depois de salvar uma cópia do original.
 
@@ -60,7 +60,7 @@ Cada mod é um arquivo `.json` na pasta `mods`, contendo o endereço de cada tre
 - Avisa quando dois mods mexem no mesmo trecho do jogo e não deixa marcar os dois juntos
 - Não aplica mudanças com o jogo aberto
 - Lembra os mods instalados e oferece reinstalar quando uma atualização da Steam ou a verificação de arquivos desfaz os patches
-- Interface em **português e inglês**, escolhida pelo idioma do Windows
+- Interface em **português e inglês**: segue o idioma do Windows e pode ser trocada na própria janela
 - Executável pequeno, sem instalador e sem dependências além do .NET Framework 4.8 que já vem no Windows 10 e 11
 
 ## Mods oficiais
@@ -76,11 +76,11 @@ O projeto vem com **3 mods oficiais**, feitos para a versão Steam do jogo (buil
 ## Como adicionar/criar mods
 
 > **Aviso: use mods de terceiros por sua conta e risco.**
-> Somente os mods oficiais, que estão na pasta `mods` deste repositório, foram revisados e são considerados seguros. Um mod diz ao programa quais bytes gravar no executável do jogo, então um mod mal-intencionado pode colocar código nocivo dentro do `Shrek.exe`. O Shrek2ModManager confere a versão do jogo, faz backup e avisa conflitos, mas não tem como saber se os bytes de um mod fazem algo ruim. Só instale mods de fontes em que você confia.
+> Somente os mods oficiais, que estão na pasta `mods` deste repositório, foram revisados e são considerados seguros. Um mod diz ao programa quais bytes gravar no executável do jogo, então um mod mal-intencionado pode colocar código nocivo dentro do `Shrek.exe`. O Shk2Modman confere a versão do jogo, faz backup e avisa conflitos, mas não tem como saber se os bytes de um mod fazem algo ruim. Só instale mods de fontes em que você confia.
 
 ### Usar um mod feito por outra pessoa
 
-1. Coloque o arquivo `.json` do mod na pasta `mods`, ao lado do `Shrek2ModManager.exe`.
+1. Coloque o arquivo `.json` do mod na pasta `mods`, ao lado do `Shk2Modman.exe`.
 2. Clique em "Atualizar". O mod aparece na lista.
 3. Marque a caixinha e clique em "Aplicar".
 
@@ -139,16 +139,16 @@ Não é preciso instalar Visual Studio nem SDK: o `build.bat` usa o compilador C
 
 ```bash
 # 1. Clone o repositório
-git clone https://github.com/gabrielfernandesdelara/Shrek2ModManager.git
+git clone https://github.com/gabrielfernandesdelara/Shk2Modman.git
 
 # 2. Entre na pasta
-cd Shrek2ModManager
+cd Shk2Modman
 
-# 3. Compile (gera dist\Shrek2ModManager.exe e copia os mods para dist\mods)
+# 3. Compile (gera dist\Shk2Modman.exe e copia os mods para dist\mods)
 build.bat
 
 # 4. Abra o programa
-dist\Shrek2ModManager.exe
+dist\Shk2Modman.exe
 ```
 
 Depois de aplicar os mods, abra o jogo pela Steam ou pelo botão "Iniciar jogo". O jogo não abre quando o `Shrek.exe` é executado diretamente.
@@ -158,7 +158,7 @@ O arquivo `tests\EngineTests.cs` testa o motor de patches sem a janela. Ele rece
 ## Estrutura de pastas
 
 ```
-Shrek2ModManager/
+Shk2Modman/
 ├── build.bat              # Compila o programa com o csc.exe do Windows
 ├── mods/                  # Um arquivo .json por mod oficial
 │   ├── cutscene-sem-barras.json

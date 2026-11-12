@@ -5,11 +5,14 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-namespace Shrek2ModManager
+namespace Shk2Modman
 {
     /// <summary>A janela: lista de mods com caixinhas, descricao e os botoes.</summary>
     public class MainForm : Form
     {
+        readonly Label lblGame = new Label();
+        readonly Label lblLanguage = new Label();
+        readonly ComboBox cmbLanguage = new ComboBox();
         readonly TextBox txtPath = new TextBox();
         readonly Button btnBrowse = new Button();
         readonly ListView list = new ListView();
@@ -31,7 +34,9 @@ namespace Shrek2ModManager
         public MainForm()
         {
             modsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mods");
+            if (settings.Language == "pt" || settings.Language == "en") T.Lang = settings.Language;
             BuildLayout();
+            ApplyTexts();
             Shown += delegate { LoadEverything(true); };
         }
 
@@ -39,7 +44,6 @@ namespace Shrek2ModManager
 
         void BuildLayout()
         {
-            Text = T.S("title");
             Font = new Font("Segoe UI", 9f);
             try { Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath); }
             catch (Exception) { /* sem icone: usa o padrao do Windows */ }
@@ -62,12 +66,12 @@ namespace Shrek2ModManager
             Controls.Add(root);
 
             // linha 1: caminho do jogo
-            TableLayoutPanel top = NewRow(3);
+            TableLayoutPanel top = NewRow(5);
             top.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
             top.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f));
             top.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-            Label lblGame = new Label();
-            lblGame.Text = T.S("game");
+            top.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            top.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
             lblGame.AutoSize = true;
             lblGame.Anchor = AnchorStyles.Left;
             lblGame.Margin = new Padding(0, 0, 6, 0);
@@ -79,6 +83,19 @@ namespace Shrek2ModManager
             top.Controls.Add(lblGame, 0, 0);
             top.Controls.Add(txtPath, 1, 0);
             top.Controls.Add(btnBrowse, 2, 0);
+            lblLanguage.AutoSize = true;
+            lblLanguage.Anchor = AnchorStyles.Left;
+            lblLanguage.Margin = new Padding(14, 0, 6, 0);
+            cmbLanguage.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbLanguage.Items.Add("Português");
+            cmbLanguage.Items.Add("English");
+            cmbLanguage.SelectedIndex = T.Lang == "pt" ? 0 : 1;
+            cmbLanguage.Width = 100;
+            cmbLanguage.Anchor = AnchorStyles.Right;
+            cmbLanguage.Margin = new Padding(0);
+            cmbLanguage.SelectedIndexChanged += delegate { ChangeLanguage(); };
+            top.Controls.Add(lblLanguage, 3, 0);
+            top.Controls.Add(cmbLanguage, 4, 0);
             root.Controls.Add(top, 0, 0);
 
             // linha 2: lista de mods
@@ -90,8 +107,8 @@ namespace Shrek2ModManager
             list.HeaderStyle = ColumnHeaderStyle.Nonclickable;
             list.Dock = DockStyle.Fill;
             list.Margin = new Padding(0, 8, 0, 8);
-            list.Columns.Add(T.S("colMod"), 380);
-            list.Columns.Add(T.S("colState"), 300);
+            list.Columns.Add("", 380);
+            list.Columns.Add("", 300);
             list.ItemCheck += OnItemCheck;
             list.SelectedIndexChanged += delegate { ShowDescription(); };
             list.Resize += delegate { ResizeColumns(); };
@@ -134,6 +151,36 @@ namespace Shrek2ModManager
             root.Controls.Add(bottom, 0, 3);
 
             AcceptButton = btnApply;
+        }
+
+        /// <summary>Escreve os textos fixos da tela no idioma atual.</summary>
+        void ApplyTexts()
+        {
+            Text = T.S("title");
+            lblGame.Text = T.S("game");
+            lblLanguage.Text = T.S("language");
+            btnBrowse.Text = T.S("browse");
+            btnRefresh.Text = T.S("refresh");
+            btnModsFolder.Text = T.S("modsFolder");
+            btnRestore.Text = T.S("restore");
+            btnPlay.Text = T.S("play");
+            btnApply.Text = T.S("apply");
+            list.Columns[0].Text = T.S("colMod");
+            list.Columns[1].Text = T.S("colState");
+        }
+
+        void ChangeLanguage()
+        {
+            T.Lang = cmbLanguage.SelectedIndex == 0 ? "pt" : "en";
+            settings.Language = T.Lang;
+            settings.Save();
+            ApplyTexts();
+            // Mantem as caixinhas como estao (inclusive mudancas ainda nao aplicadas).
+            loading = true;
+            foreach (ListViewItem item in list.Items) item.Text = ((ModDef)item.Tag).GetName(T.Lang);
+            loading = false;
+            UpdateRows();
+            ShowDescription();
         }
 
         static TableLayoutPanel NewRow(int columns)

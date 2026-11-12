@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Web.Script.Serialization;
 
-namespace Shrek2ModManager
+namespace Shk2Modman
 {
     /// <summary>Le os arquivos .json da pasta "mods" e transforma em ModDef.</summary>
     public static class ModLoader

@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Web.Script.Serialization;
 
-namespace Shrek2ModManager
+namespace Shk2Modman
 {
-    /// <summary>O que o programa lembra entre uma abertura e outra (%AppData%\Shrek2ModManager\settings.json).</summary>
+    /// <summary>O que o programa lembra entre uma abertura e outra (%AppData%\Shk2Modman\settings.json).</summary>
     public class Settings
     {
         public string GameExe = "";
+        /// <summary>"pt" ou "en"; vazio = seguir o idioma do Windows.</summary>
+        public string Language = "";
         /// <summary>Mods que o usuario deixou instalados. Serve para avisar quando a Steam desfaz os patches.</summary>
         public List<string> Enabled = new List<string>();
 
@@ -16,7 +18,7 @@ namespace Shrek2ModManager
         {
             get
             {
-                string folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Shrek2ModManager");
+                string folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Shk2Modman");
                 return Path.Combine(folder, "settings.json");
             }
         }
@@ -31,6 +33,7 @@ namespace Shrek2ModManager
                 if (root == null) return s;
                 object value;
                 if (root.TryGetValue("gameExe", out value) && value != null) s.GameExe = Convert.ToString(value);
+                if (root.TryGetValue("language", out value) && value != null) s.Language = Convert.ToString(value);
                 if (root.TryGetValue("enabled", out value) && value is object[])
                     foreach (object id in (object[])value) s.Enabled.Add(Convert.ToString(id));
             }
@@ -45,6 +48,7 @@ namespace Shrek2ModManager
                 Directory.CreateDirectory(Path.GetDirectoryName(FilePath));
                 Dictionary<string, object> root = new Dictionary<string, object>();
                 root["gameExe"] = GameExe;
+                root["language"] = Language;
                 root["enabled"] = Enabled;
                 File.WriteAllText(FilePath, new JavaScriptSerializer().Serialize(root));
             }

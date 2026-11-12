@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Shrek2ModManager
+namespace Shk2Modman
 {
     /// <summary>Um trecho do Shrek.exe: onde fica, os bytes originais e os bytes do mod.</summary>
     public class Patch

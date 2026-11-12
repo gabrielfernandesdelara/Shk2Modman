@@ -4,7 +4,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using Microsoft.Win32;
 
-namespace Shrek2ModManager
+namespace Shk2Modman
 {
     /// <summary>Acha o Shrek.exe olhando as bibliotecas da Steam.</summary>
     public static class SteamLocator
