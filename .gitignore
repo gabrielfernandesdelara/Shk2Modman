@@ -1,0 +1,5 @@
+dist/
+*.exe
+*.original
+CLAUDE.md
+.claude/

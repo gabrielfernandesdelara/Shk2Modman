@@ -1,0 +1,39 @@
+{
+  "id": "keyboard-controller",
+  "name": {
+    "en": "Keyboard + Controller local co-op",
+    "pt": "Teclado + Controle no co-op local"
+  },
+  "description": {
+    "en": "The game merges the keyboard/mouse and the first controller into the same input device, so both always control Player 1.\nThis mod gives the keyboard its own device: with one controller connected, the controller is Player 1 and the keyboard can join as Player 2.\n\nWith a controller connected, keyboard and mouse no longer control Player 1.",
+    "pt": "O jogo junta o teclado/mouse e o primeiro controle no mesmo dispositivo, então os dois sempre controlam o Jogador 1.\nEste mod dá ao teclado um dispositivo próprio: com um controle conectado, o controle é o Jogador 1 e o teclado pode entrar como Jogador 2.\n\nCom um controle conectado, teclado e mouse não controlam mais o Jogador 1."
+  },
+  "version": "1.0",
+  "gameBuild": "CL 583774",
+  "patches": [
+    {
+      "rva": "0x2FB282",
+      "note": "AllocateDevices: the keyboard takes the first slot without a gamepad",
+      "original": "85ff75428b43f083f8ff741783f8037712ffc74881c3080100004883c618e92bffffff896bf0c643110140386b107516c6431001ffc74881c3080100004883c618e908ffffffffc74881c3080100004883c61883ff040f8cf2feffff",
+      "patched": "ffc74881c3080100004883c61883ff040f8c38ffffff4881eb2004000033c0837bf0ff74104881c308010000ffc083f8047ceceb278943f0c643110140386b10751ac6431001eb149090909090909090909090909090909090909090"
+    },
+    {
+      "rva": "0x2FB868",
+      "note": "ProcessAllAllocatedDevices: a slot without a gamepad goes to keyboard handling",
+      "original": "7408",
+      "patched": "7411"
+    },
+    {
+      "rva": "0x2FB872",
+      "note": "ProcessAllAllocatedDevices: a slot with a gamepad no longer reads the keyboard",
+      "original": "4885f60f85ac010000",
+      "patched": "e9b001000090909090"
+    },
+    {
+      "rva": "0x2FBA22",
+      "note": "ProcessAllAllocatedDevices: keyboard block respects the slot limit",
+      "original": "e969fdffff",
+      "patched": "e903000000"
+    }
+  ]
+}

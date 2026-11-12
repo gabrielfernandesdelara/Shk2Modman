@@ -1,0 +1,21 @@
+{
+  "id": "cutscene-no-bars",
+  "name": {
+    "en": "Cutscenes without black bars",
+    "pt": "Cutscenes sem barras pretas"
+  },
+  "description": {
+    "en": "During cutscenes the game covers the picture with black bars: side bars down to 4:3, plus top and bottom bars.\nThis mod removes the side and top bars. The bottom strip is only drawn while a subtitle is on screen.\n\nThings that used to be hidden by the bars may show up at the edges.",
+    "pt": "Nas cutscenes o jogo cobre a imagem com barras pretas: laterais até 4:3, mais uma em cima e outra embaixo.\nEste mod remove as laterais e a de cima. A faixa de baixo só aparece enquanto há legenda na tela.\n\nPode aparecer nas bordas algo que antes ficava escondido pelas barras."
+  },
+  "version": "1.0",
+  "gameBuild": "CL 583774",
+  "patches": [
+    {
+      "rva": "0x1286EE",
+      "note": "HUD::DrawLetterBox: only the bottom strip, and only while a subtitle is shown",
+      "original": "443bf07e2c660f6ec0418bc60f5bc0f30f59057764be01f30f2cc82bc1992bc2d1f8660f6ec00f5bc0f30f59c6f30f2ce8ba02000000488d4c2440e802a71a0066410f6ec7488d4c24400f5bc0410fbff6660f6ede0f57d2f30f5905ca9334000f57c90f5bdbf30f59c60f57f6f30f11742430c744242800000080f30f2cd80fbffb660f6ec70f5bc0f30f11442420e87e971a00410fb7c7f30f11742430662bc3660f6ede0fbfc80f57c90f5bdbc7442428000000808d0439660f6ed1488d4c2440660f6ec00f5bc00f5bd2f30f11442420e83b971a0085ed7e7af30f11742430488d4c2440410fbfdf0f57d20fbffd0f57c9c744242800000080660f6ec3660f6edf0f5bc00f5bdbf30f11442420e8fe961a00f30f1174243066442bf5410fbfce0f57d2660f6ec30f5bc0c7442428000000808d0439660f6ec9488d4c2440660f6ed80f5bdb0f5bc9f30f11442420e8bd961a00",
+      "patched": "4883bb90010000000f8447010000ba03000000488d0d988f4900e8f350090084c00f842e010000ba02000000488d4c2440e80ca71a00f3410f2ac7f30f5905e7933400f30f59c6f30f2cc0418bcf2bc80f57d2f30f2ad10f57c0f3410f2ac7f30f11442420c744242800000080c7442430000000000f57dbf3410f2ade0f57c9488d4c2440e888971a00e9c6000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    }
+  ]
+}

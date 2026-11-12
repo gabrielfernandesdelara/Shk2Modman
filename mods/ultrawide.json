@@ -1,0 +1,27 @@
+{
+  "id": "ultrawide",
+  "name": {
+    "en": "Ultrawide without black bars",
+    "pt": "Ultrawide sem barras pretas"
+  },
+  "description": {
+    "en": "On screens wider than 16:9 the game only draws the 3D scene in the central 16:9 area and paints the sides black.\nThis mod removes that limit: the scene fills the whole width (not stretched) and the HUD moves to the screen edges.\n\nOn 16:9 screens nothing changes. Tested at 21:9 (2560x1080).",
+    "pt": "Em telas mais largas que 16:9 o jogo só desenha o 3D na área 16:9 do centro e deixa as laterais pretas.\nEste mod tira esse limite: a cena ocupa a largura toda (sem esticar) e o HUD vai para as bordas da tela.\n\nEm telas 16:9 nada muda. Testado em 21:9 (2560x1080)."
+  },
+  "version": "1.0",
+  "gameBuild": "CL 583774",
+  "patches": [
+    {
+      "rva": "0x244984",
+      "note": "SetRenderSection: no side crop for the 3D scene",
+      "original": "8bf8",
+      "patched": "33ff"
+    },
+    {
+      "rva": "0x1278C2",
+      "note": "HUD::Draw: no black side rectangles",
+      "original": "0f4fc3",
+      "patched": "909090"
+    }
+  ]
+}
