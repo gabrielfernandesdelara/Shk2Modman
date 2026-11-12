@@ -16,7 +16,7 @@ Marque os mods que quiser, clique em Aplicar e pronto.</p>
 </p>
 
 <p>
-  <img src="https://img.shields.io/badge/status-em%20desenvolvimento-yellow?style=for-the-badge" alt="Status" />
+  <img src="https://img.shields.io/badge/status-conclu%C3%ADdo-green?style=for-the-badge" alt="Status" />
   <img src="https://img.shields.io/github/last-commit/gabrielfernandesdelara/Shk2Modman?style=for-the-badge&label=%C3%BAltimo%20commit" alt="Último commit" />
 </p>
 
