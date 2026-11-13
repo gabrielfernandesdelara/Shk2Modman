@@ -286,6 +286,12 @@ namespace Shk2Modman
                 string text;
                 Color color = SystemColors.WindowText;
                 if (exePath == null) text = "";
+                else if (state == ModState.Incompatible && item.Checked && InstalledOverlap(mod) != null)
+                {
+                    // vai entrar no lugar do mod que conflita com ele
+                    text = T.S("stWillInstall");
+                    pending = true;
+                }
                 else if (state == ModState.Incompatible)
                 {
                     // Um mod instalado que mexe no mesmo trecho faz este parecer incompativel: explica o motivo certo.
@@ -335,26 +341,22 @@ namespace Shk2Modman
             if (loading) return;
             ModDef mod = (ModDef)list.Items[e.Index].Tag;
 
-            // Mod incompativel (ou jogo nao encontrado) nao pode ser marcado.
-            if (exePath == null || StateOf(mod) == ModState.Incompatible)
+            // Mod incompativel (ou jogo nao encontrado) nao pode ser marcado. A excecao e o mod que so
+            // parece incompativel porque outro mod instalado mexe no mesmo trecho: esse pode ser trocado.
+            if (exePath == null || (StateOf(mod) == ModState.Incompatible && InstalledOverlap(mod) == null))
             {
                 e.NewValue = e.CurrentValue;
                 return;
             }
 
-            // Dois mods que mexem no mesmo trecho nao podem ficar marcados juntos.
+            // Dois mods que mexem no mesmo trecho nao ficam marcados juntos: marcar um desmarca o outro.
             if (e.NewValue == CheckState.Checked)
             {
+                loading = true;
                 foreach (ListViewItem other in list.Items)
-                {
-                    ModDef otherMod = (ModDef)other.Tag;
-                    if (other.Index != e.Index && other.Checked && PatchEngine.Overlaps(mod, otherMod))
-                    {
-                        e.NewValue = e.CurrentValue;
-                        MessageBox.Show(this, T.S("errConflict") + "\n\n" + mod.GetName(T.Lang) + "\n" + otherMod.GetName(T.Lang), Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-                }
+                    if (other.Index != e.Index && other.Checked && PatchEngine.Overlaps(mod, (ModDef)other.Tag))
+                        other.Checked = false;
+                loading = false;
             }
 
             // O valor novo so vale depois que este evento termina.

@@ -29,13 +29,15 @@ static class EngineTests
         List<string> errors = new List<string>();
         List<ModDef> mods = ModLoader.LoadFolder(modsFolder, errors);
         Check(errors.Count == 0, "todos os .json carregam (" + string.Join("; ", errors.ToArray()) + ")");
-        Check(mods.Count == 4, "4 mods carregados (" + mods.Count + ")");
+        Check(mods.Count == 5, "5 mods carregados (" + mods.Count + ")");
         // o mod do Remote Play e uma alternativa ao do teclado: e testado separado, no fim
         ModDef remote = mods.Find(delegate(ModDef m) { return m.Id == "keyboard-controller-remote-play"; });
         ModDef keyboard = mods.Find(delegate(ModDef m) { return m.Id == "keyboard-controller"; });
         Check(remote != null && keyboard != null && PatchEngine.Overlaps(remote, keyboard), "mod do Remote Play conflita com o do teclado");
+        ModDef shared = mods.Find(delegate(ModDef m) { return m.Id == "remote-play-shared-player1"; });
+        Check(shared != null && PatchEngine.Overlaps(shared, remote) && PatchEngine.Overlaps(shared, keyboard), "os tres mods de teclado conflitam entre si");
         List<ModDef> all = mods;
-        mods = mods.FindAll(delegate(ModDef m) { return m != remote; });
+        mods = mods.FindAll(delegate(ModDef m) { return m != remote && m != shared; });
         string original = Hash(exe);
 
         Dictionary<string, ModState> states = GameExe.ReadStates(exe, mods);
@@ -83,6 +85,14 @@ static class EngineTests
         Check(clash2, "recusa Remote Play + teclado juntos");
         GameExe.ApplySelection(exe, all, new List<string>());
         Check(Hash(exe) == original, "remover o mod do Remote Play devolve o original");
+
+        // variante "teclado ou controle no Jogador 1": instala, troca pela outra variante e sai limpo
+        Check(GameExe.ApplySelection(exe, all, new List<string> { shared.Id }).Installed == 1, "instala a variante Jogador 1 compartilhado");
+        Console.WriteLine("HASH shared-player1 " + Hash(exe));
+        ApplyResult swap = GameExe.ApplySelection(exe, all, new List<string> { remote.Id });
+        Check(swap.Removed == 1 && swap.Installed == 1 && GameExe.ReadStates(exe, all)[remote.Id] == ModState.Installed, "troca uma variante pela outra em um Aplicar");
+        GameExe.ApplySelection(exe, all, new List<string>());
+        Check(Hash(exe) == original, "remover as variantes devolve o original");
 
         // backup de outra versao do jogo: nao restaura, e e trocado na proxima instalacao
         byte[] stale = File.ReadAllBytes(exe + ".original");

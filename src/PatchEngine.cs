@@ -220,23 +220,22 @@ namespace Shk2Modman
 
             foreach (ModDef m in mods)
             {
-                ModState state = PatchEngine.GetState(exe, m);
-                bool want = wanted.Contains(m.Id);
-                if (state == ModState.Installed) anyInstalled = true;
-                if (want && state == ModState.NotInstalled) toInstall.Add(m);
-                else if (!want && state == ModState.Installed) toRemove.Add(m);
-                else if (want && state == ModState.Incompatible) throw new ModManagerException("errIncompatible", m.Id);
+                if (PatchEngine.GetState(exe, m) != ModState.Installed) continue;
+                anyInstalled = true;
+                if (!wanted.Contains(m.Id)) toRemove.Add(m);
             }
 
-            for (int i = 0; i < toInstall.Count; i++)
+            // Trabalha numa copia: tira os mods desmarcados e so entao ve o que falta instalar.
+            // Assim da para trocar um mod por outro que mexe no mesmo trecho em um unico Aplicar.
+            byte[] original = exe;
+            exe = (byte[])exe.Clone();
+            foreach (ModDef m in toRemove) PatchEngine.Write(exe, m, false);
+            foreach (ModDef m in mods)
             {
-                for (int j = i + 1; j < toInstall.Count; j++)
-                    if (PatchEngine.Overlaps(toInstall[i], toInstall[j]))
-                        throw new ModManagerException("errConflict", toInstall[i].Id + " + " + toInstall[j].Id);
-                foreach (ModDef other in mods)
-                    if (other != toInstall[i] && wanted.Contains(other.Id) && !toInstall.Contains(other)
-                        && PatchEngine.Overlaps(toInstall[i], other))
-                        throw new ModManagerException("errConflict", toInstall[i].Id + " + " + other.Id);
+                if (!wanted.Contains(m.Id)) continue;
+                ModState state = PatchEngine.GetState(exe, m);
+                if (state == ModState.NotInstalled) toInstall.Add(m);
+                else if (state == ModState.Incompatible) throw new ModManagerException("errIncompatible", m.Id);
             }
 
             if (toInstall.Count == 0 && toRemove.Count == 0) return result;
@@ -244,14 +243,13 @@ namespace Shk2Modman
             // O backup so e criado a partir de um exe sem nenhum mod conhecido aplicado.
             // Se ja existe um backup de outra versao do jogo, ele e substituido.
             string backup = exePath + BackupSuffix;
-            if (!anyInstalled && (!File.Exists(backup) || !SameBytes(exe, File.ReadAllBytes(backup))))
+            if (!anyInstalled && (!File.Exists(backup) || !SameBytes(original, File.ReadAllBytes(backup))))
             {
                 File.Copy(exePath, backup, true);
                 result.BackupCreated = true;
             }
 
-            // Remove primeiro e instala depois, sempre na copia em memoria.
-            foreach (ModDef m in toRemove) { PatchEngine.Write(exe, m, false); result.Removed++; }
+            result.Removed = toRemove.Count;
             foreach (ModDef m in toInstall) { PatchEngine.Write(exe, m, true); result.Installed++; }
 
             try { File.WriteAllBytes(exePath, exe); }

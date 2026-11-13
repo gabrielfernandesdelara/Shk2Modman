@@ -57,7 +57,7 @@ Each mod is a `.json` file in the `mods` folder, holding the address of each pat
 - Saves the original executable as `Shrek.exe.original` before the first change
 - "Restore original" button, which puts the backup back and removes every mod at once; it refuses to restore a backup from another game version
 - Checks the bytes before writing: on another game version the mod shows as not compatible and nothing is changed
-- Warns when two mods change the same part of the game and does not let you tick both
+- Mods that change the same part of the game are never on together: ticking one unticks the other, and the swap happens in a single Apply
 - Does not apply changes while the game is running
 - Remembers the installed mods and offers to reinstall them when a Steam update or file verification undoes the patches
 - Interface in **English and Portuguese**: it follows the Windows language and can be switched in the window itself
@@ -65,16 +65,17 @@ Each mod is a `.json` file in the `mods` folder, holding the address of each pat
 
 ## Official mods
 
-The project comes with **4 official mods**, made for the Steam version of the game (builds CL 583774 and CL 583916):
+The project comes with **5 official mods**, made for the Steam version of the game (builds CL 583774 and CL 583916):
 
 | Mod | What it does |
 |---|---|
 | Keyboard + Controller local co-op | The keyboard stops sharing Player 1 with the first controller and can join as another player |
 | Cutscenes without black bars | Removes the side and top bars in cutscenes; the bottom strip only shows while a subtitle is on screen |
 | Ultrawide without black bars | On screens wider than 16:9, the 3D scene fills the whole width without stretching the picture |
-| Keyboard + Controllers for Remote Play Together | For hosting local co-op through Steam Remote Play Together while playing on the keyboard: the keyboard is always Player 1 and the controllers, read through XInput, join as Players 2 to 4 |
+| Remote Play: keyboard or controller as Player 1 | For hosting local co-op through Steam Remote Play Together with a controller of your own: controllers are read through XInput, Player 1 takes the keyboard or your controller (the icons follow the last one used) and the other controllers join as Players 2 to 4 |
+| Remote Play: keyboard as Player 1 | For hosting through Remote Play while playing on the keyboard only: the keyboard is always Player 1 and the controllers, read through XInput, join as Players 2 to 4 |
 
-The two keyboard mods are alternatives and cannot be turned on at the same time. The Remote Play one was made for build CL 583916.
+The three keyboard mods are alternatives: ticking one unticks the others. The two Remote Play ones were made for build CL 583916.
 
 ## How to add/create mods
 
@@ -165,6 +166,7 @@ Shk2Modman/
 ├── build.bat              # Builds the program with the Windows csc.exe
 ├── mods/                  # One .json file per official mod
 │   ├── cutscene-sem-barras.json
+│   ├── remote-play-teclado-ou-controle.json
 │   ├── teclado-controle.json
 │   ├── teclado-controles-remote-play.json
 │   └── ultrawide.json

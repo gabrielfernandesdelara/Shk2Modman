@@ -57,7 +57,7 @@ Cada mod é um arquivo `.json` na pasta `mods`, contendo o endereço de cada tre
 - Salva o executável original como `Shrek.exe.original` antes da primeira alteração
 - Botão "Restaurar original", que coloca o backup de volta e remove todos os mods de uma vez; ele se recusa a restaurar um backup de outra versão do jogo
 - Confere os bytes antes de gravar: se o jogo for de outra versão, o mod aparece como incompatível e nada é alterado
-- Avisa quando dois mods mexem no mesmo trecho do jogo e não deixa marcar os dois juntos
+- Mods que mexem no mesmo trecho do jogo não ficam ligados juntos: marcar um desmarca o outro, e a troca é feita em um único Aplicar
 - Não aplica mudanças com o jogo aberto
 - Lembra os mods instalados e oferece reinstalar quando uma atualização da Steam ou a verificação de arquivos desfaz os patches
 - Interface em **português e inglês**: segue o idioma do Windows e pode ser trocada na própria janela
@@ -65,16 +65,17 @@ Cada mod é um arquivo `.json` na pasta `mods`, contendo o endereço de cada tre
 
 ## Mods oficiais
 
-O projeto vem com **4 mods oficiais**, feitos para a versão Steam do jogo (builds CL 583774 e CL 583916):
+O projeto vem com **5 mods oficiais**, feitos para a versão Steam do jogo (builds CL 583774 e CL 583916):
 
 | Mod | O que faz |
 |---|---|
 | Teclado + Controle no co-op local | O teclado deixa de dividir o Jogador 1 com o primeiro controle e pode entrar como outro jogador |
 | Cutscenes sem barras pretas | Remove as barras laterais e a de cima nas cutscenes; a faixa de baixo só aparece quando há legenda |
 | Ultrawide sem barras pretas | Em telas mais largas que 16:9, a cena 3D ocupa a largura toda, sem esticar a imagem |
-| Teclado + Controles para Remote Play Together | Para hospedar o co-op local pelo Steam Remote Play Together jogando no teclado: o teclado é sempre o Jogador 1 e os controles, lidos pelo XInput, entram como Jogadores 2 a 4 |
+| Remote Play: teclado ou controle no Jogador 1 | Para hospedar o co-op local pelo Steam Remote Play Together tendo um controle seu: os controles são lidos pelo XInput, o Jogador 1 aceita teclado ou o seu controle (os ícones acompanham o último usado) e os outros controles entram como Jogadores 2 a 4 |
+| Remote Play: teclado como Jogador 1 | Para hospedar pelo Remote Play jogando só no teclado: o teclado é sempre o Jogador 1 e os controles, lidos pelo XInput, entram como Jogadores 2 a 4 |
 
-Os dois mods de teclado são alternativas e não podem ficar ligados ao mesmo tempo. O de Remote Play foi feito para a build CL 583916.
+Os três mods de teclado são alternativas: marcar um desmarca os outros. Os dois de Remote Play foram feitos para a build CL 583916.
 
 ## Como adicionar/criar mods
 
@@ -165,6 +166,7 @@ Shk2Modman/
 ├── build.bat              # Compila o programa com o csc.exe do Windows
 ├── mods/                  # Um arquivo .json por mod oficial
 │   ├── cutscene-sem-barras.json
+│   ├── remote-play-teclado-ou-controle.json
 │   ├── teclado-controle.json
 │   ├── teclado-controles-remote-play.json
 │   └── ultrawide.json

@@ -1,0 +1,39 @@
+{
+  "id": "remote-play-shared-player1",
+  "name": {
+    "en": "Remote Play: keyboard or controller as Player 1",
+    "pt": "Remote Play: teclado ou controle no Jogador 1"
+  },
+  "description": {
+    "en": "For hosting local co-op through Steam Remote Play Together when you have your own controller connected.\nThe game normally reads controllers through GameInput, which ignores the guests' controllers. This mod reads all controllers through XInput and keeps keyboard and mouse working.\n\nPlayer 1 works like in the original game: keyboard or your controller, and the button icons follow whichever you used last. The other controllers join as Players 2, 3 and 4.\nKeep your own controller connected: without it, the first guest's controller shares Player 1 with the keyboard.\n\nCannot be used together with the other keyboard mods.",
+    "pt": "Para hospedar o co-op local pelo Steam Remote Play Together quando você tem um controle seu conectado.\nO jogo normalmente lê os controles pelo GameInput, que ignora os controles dos convidados. Este mod lê todos os controles pelo XInput e mantém teclado e mouse funcionando.\n\nO Jogador 1 funciona como no jogo original: teclado ou o seu controle, e os ícones dos botões acompanham o que você usou por último. Os outros controles entram como Jogadores 2, 3 e 4.\nDeixe o seu controle conectado: sem ele, o controle do primeiro convidado divide o Jogador 1 com o teclado.\n\nNão pode ser usado junto com os outros mods de teclado."
+  },
+  "version": "1.0",
+  "gameBuild": "CL 583916",
+  "patches": [
+    {
+      "rva": "0x2FB1BB",
+      "note": "AllocateDevices: slot 0 = keyboard + XInput controller 0, slots 1-3 = XInput controllers 1-3",
+      "original": "8bfd488d7120488d99c80100000f1f840000000000c743f0ffffffff40886b11488b0e4885c97477488b01ff5020a801746d897bf0c64311014c8b364c3973f874214d85f67409498b06498bceff5008488b4bf84c8973f84885c97406488b01ff50104c8b76084c3933741f4d85f67409498b06498bceff5008488b0b4c89334885c97406488b01ff5010488b46104889430840386b10752ec6431002eb28488b4bf848896bf84885c97406488b01ff5010488b0b48892b4885c97406488b01ff501048896b0885ff75428b43f083f8ff741783f8037712ffc74881c3080100004883c618e92bffffff896bf0c643110140386b107516c6431001ffc74881c3080100004883c618e908ffffffffc74881c3080100004883c61883ff040f8cf2feffff",
+      "patched": "488d99b801000031ff807b04007509fe4b057536c643053c89f9488d5330e82ede070085c07523893bc7430401000000c643210185ff7406c6432002eb2c807b20007526c6432002eb20c643040085ff750ec7030000000066c743200101eb0ac703ffffffffc64321004881c308010000ffc783ff047c91e9a6000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    {
+      "rva": "0x2FB860",
+      "note": "ProcessAllAllocatedDevices: use the slot's controller flag",
+      "original": "4839841fc0010000",
+      "patched": "39841fbc01000090"
+    },
+    {
+      "rva": "0x2FBA76",
+      "note": "ProcessGamepad: read the controller through XInput, switch device type only on activity",
+      "original": "488b4a1033c00f57c048894424300f1144242089442438488bda488b01488d542420ff9088000000f30f10442424f30f100d509816000f2fc1720bc6432002c683b300000001f30f1183e0000000f30f104424280f2fc1720bc6432002c683b400000001f30f10154e5e15000f57dbf30f1183e4000000f30f104424300f2fd8760d0f57c2f30f1183c4000000eb08f30f1183c0000000f30f1083c40000000f2fc1720dc6432002c683a000000001eb18f30f1083c00000000f2fc1720bc6432002c6839f00000001f30f1044242c0f2fd8760d0f57c2f30f1183cc000000eb08f30f1183c8000000f30f1083cc0000000f2fc1720dc6432002c683a200000001eb18f30f1083c80000000f2fc1720bc6432002c683a100000001f30f104424380f2fd8760d0f57c2f30f1183d4000000eb08f30f1183d0000000f30f1083d40000000f2fc1720dc6432002c683a400000001eb18f3",
+      "patched": "0f57c00f114424208b0a488d9aa8000000488d542420e87bd5070085c00f852d0100000fb68378ffffff89442430488d9378ffffff0fb74c2424c602020fb7c166c1e80c2401c68379ffffff018843ff0fb7c166c1e80d240188030fb7c166c1e80e24018843010fb7c166c1e80f8843020fb6c124018843030fb6c1d0e824018843040fb6c1c0e80224018843060fb6c1c0e80324018843050fb7c166c1e80824018843090fb7c166c1e809240188430a0fb6c1c0e80624018843070fb6c1c0e80724018843080fb6c1c0e8052401c0e90480e10188430d884b0e488d9378ffffff4c8d442424e8ee2b000066837c242400755c807c24261e7755807c24271e774e0fbf44242805401f00003d803e0000773d0fbf44242a05401f00003d803e0000772c0fbf44242c05401f00003d803e0000771b0fbf44242e05401f00003d803e0000770a8b442430888378ffffff4883c4405bc3"
+    },
+    {
+      "rva": "0x2FD690",
+      "note": "SetVibration: rumble through XInput",
+      "original": "40534883ec500f297424400f28f34863c24869d8080100000f297c24300f28fa80bc0bd80100000275",
+      "patched": "83fa03771ef30f115c2420f30f115424184989e34883ec384c63ca0f28c2e9d31b0000b803000000c3"
+    }
+  ]
+}

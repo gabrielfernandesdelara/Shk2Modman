@@ -1,12 +1,12 @@
 {
   "id": "keyboard-controller-remote-play",
   "name": {
-    "en": "Keyboard + Controllers for Remote Play Together",
-    "pt": "Teclado + Controles para Remote Play Together"
+    "en": "Remote Play: keyboard as Player 1",
+    "pt": "Remote Play: teclado como Jogador 1"
   },
   "description": {
-    "en": "For hosting local co-op through Steam Remote Play Together while you play on the keyboard.\nThe game normally reads controllers through GameInput, which ignores the guests' controllers. This mod keeps keyboard and mouse working but reads the controllers through XInput instead.\n\nThe keyboard is always Player 1. Controllers join as Players 2, 3 and 4 (up to 3 controllers).\nIf you play alone with a controller, turn this mod off: the controller would not control Player 1.\n\nCannot be used together with \"Keyboard + Controller local co-op\".",
-    "pt": "Para hospedar o co-op local pelo Steam Remote Play Together enquanto você joga no teclado.\nO jogo normalmente lê os controles pelo GameInput, que ignora os controles dos convidados. Este mod mantém teclado e mouse funcionando, mas lê os controles pelo XInput.\n\nO teclado é sempre o Jogador 1. Os controles entram como Jogadores 2, 3 e 4 (até 3 controles).\nSe você for jogar sozinho com controle, desligue este mod: o controle não controlaria o Jogador 1.\n\nNão pode ser usado junto com \"Teclado + Controle no co-op local\"."
+    "en": "For hosting local co-op through Steam Remote Play Together while you play on the keyboard, without a controller of your own.\nThe game normally reads controllers through GameInput, which ignores the guests' controllers. This mod keeps keyboard and mouse working but reads the controllers through XInput.\n\nThe keyboard is always Player 1, so the icons are always the keyboard ones. Controllers join as Players 2, 3 and 4 (up to 3 controllers).\nIf you also play with a controller, use \"Remote Play: keyboard or controller as Player 1\" instead.\n\nCannot be used together with the other keyboard mods.",
+    "pt": "Para hospedar o co-op local pelo Steam Remote Play Together jogando no teclado, sem um controle seu.\nO jogo normalmente lê os controles pelo GameInput, que ignora os controles dos convidados. Este mod mantém teclado e mouse funcionando, mas lê os controles pelo XInput.\n\nO teclado é sempre o Jogador 1, então os ícones são sempre os do teclado. Os controles entram como Jogadores 2, 3 e 4 (até 3 controles).\nSe você também joga com controle, use \"Remote Play: teclado ou controle no Jogador 1\".\n\nNão pode ser usado junto com os outros mods de teclado."
   },
   "version": "1.0",
   "gameBuild": "CL 583916",

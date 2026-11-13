@@ -27,7 +27,7 @@ namespace Shk2Modman
             { "stInstalled", new[] { "Installed", "Instalado" } },
             { "stNotInstalled", new[] { "Not installed", "Não instalado" } },
             { "stIncompatible", new[] { "Not compatible with this game version", "Incompatível com esta versão do jogo" } },
-            { "stBlocked", new[] { "Blocked: turn off \"{0}\" first", "Bloqueado: desligue \"{0}\" antes" } },
+            { "stBlocked", new[] { "Replaces \"{0}\" if ticked", "Substitui \"{0}\" se for marcado" } },
             { "stWillInstall", new[] { "Will be installed", "Será instalado" } },
             { "stWillRemove", new[] { "Will be removed", "Será removido" } },
             { "noGame", new[] { "Shrek.exe not found. Click \"Browse...\" and select it in the game folder.", "Shrek.exe não encontrado. Clique em \"Procurar...\" e selecione-o na pasta do jogo." } },
