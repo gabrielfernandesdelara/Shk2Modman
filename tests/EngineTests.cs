@@ -29,7 +29,13 @@ static class EngineTests
         List<string> errors = new List<string>();
         List<ModDef> mods = ModLoader.LoadFolder(modsFolder, errors);
         Check(errors.Count == 0, "todos os .json carregam (" + string.Join("; ", errors.ToArray()) + ")");
-        Check(mods.Count == 3, "3 mods carregados (" + mods.Count + ")");
+        Check(mods.Count == 4, "4 mods carregados (" + mods.Count + ")");
+        // o mod do Remote Play e uma alternativa ao do teclado: e testado separado, no fim
+        ModDef remote = mods.Find(delegate(ModDef m) { return m.Id == "keyboard-controller-remote-play"; });
+        ModDef keyboard = mods.Find(delegate(ModDef m) { return m.Id == "keyboard-controller"; });
+        Check(remote != null && keyboard != null && PatchEngine.Overlaps(remote, keyboard), "mod do Remote Play conflita com o do teclado");
+        List<ModDef> all = mods;
+        mods = mods.FindAll(delegate(ModDef m) { return m != remote; });
         string original = Hash(exe);
 
         Dictionary<string, ModState> states = GameExe.ReadStates(exe, mods);
@@ -61,14 +67,33 @@ static class EngineTests
         GameExe.ApplySelection(exe, mods, new List<string>());
         Check(Hash(exe) == original, "remover tudo devolve o exe original");
 
-        // restaurar o backup desfaz tudo, inclusive alteracoes de fora
+        // restaurar o backup remove todos os mods de uma vez
         GameExe.ApplySelection(exe, mods, new List<string> { mods[0].Id, mods[2].Id });
-        byte[] dirty = File.ReadAllBytes(exe);
-        dirty[dirty.Length - 1] ^= 0xFF;
-        File.WriteAllBytes(exe, dirty);
         Check(GameExe.HasBackup(exe), "backup existe");
-        GameExe.RestoreBackup(exe);
+        GameExe.RestoreBackup(exe, mods);
         Check(Hash(exe) == original, "restaurar o backup devolve o exe original");
+
+        // mod do Remote Play: instala sozinho, recusa junto com o do teclado, e sai limpo
+        ApplyResult rp = GameExe.ApplySelection(exe, all, new List<string> { remote.Id, mods[0].Id });
+        Check(rp.Installed == 2, "instala o mod do Remote Play com outro mod");
+        Console.WriteLine("HASH remote-play " + Hash(exe));
+        bool clash2 = false;
+        try { GameExe.ApplySelection(exe, all, new List<string> { remote.Id, keyboard.Id }); }
+        catch (ModManagerException ex) { clash2 = ex.Key == "errConflict"; }
+        Check(clash2, "recusa Remote Play + teclado juntos");
+        GameExe.ApplySelection(exe, all, new List<string>());
+        Check(Hash(exe) == original, "remover o mod do Remote Play devolve o original");
+
+        // backup de outra versao do jogo: nao restaura, e e trocado na proxima instalacao
+        byte[] stale = File.ReadAllBytes(exe + ".original");
+        stale[stale.Length - 1] ^= 0xFF;
+        File.WriteAllBytes(exe + ".original", stale);
+        bool refusedStale = false;
+        try { GameExe.RestoreBackup(exe, all); }
+        catch (ModManagerException ex) { refusedStale = ex.Key == "errStaleBackup"; }
+        Check(refusedStale && Hash(exe) == original, "nao restaura backup de outra versao");
+        Check(GameExe.ApplySelection(exe, all, new List<string> { mods[0].Id }).BackupCreated && Hash(exe + ".original") == original, "backup antigo e substituido ao instalar");
+        GameExe.ApplySelection(exe, all, new List<string>());
         Check(!GameExe.HasBackup(exe + ".nao-existe"), "sem backup, HasBackup e falso");
 
         // exe de outra versao: recusa e nao grava nada

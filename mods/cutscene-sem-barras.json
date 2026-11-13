@@ -9,7 +9,7 @@
     "pt": "Nas cutscenes o jogo cobre a imagem com barras pretas: laterais até 4:3, mais uma em cima e outra embaixo.\nEste mod remove as laterais e a de cima. A faixa de baixo só aparece enquanto há legenda na tela.\n\nPode aparecer nas bordas algo que antes ficava escondido pelas barras."
   },
   "version": "1.0",
-  "gameBuild": "CL 583774",
+  "gameBuild": "CL 583774 / CL 583916",
   "patches": [
     {
       "rva": "0x1286EE",

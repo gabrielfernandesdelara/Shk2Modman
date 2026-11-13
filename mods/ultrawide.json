@@ -9,7 +9,7 @@
     "pt": "Em telas mais largas que 16:9 o jogo só desenha o 3D na área 16:9 do centro e deixa as laterais pretas.\nEste mod tira esse limite: a cena ocupa a largura toda (sem esticar) e o HUD vai para as bordas da tela.\n\nEm telas 16:9 nada muda. Testado em 21:9 (2560x1080)."
   },
   "version": "1.0",
-  "gameBuild": "CL 583774",
+  "gameBuild": "CL 583774 / CL 583916",
   "patches": [
     {
       "rva": "0x244984",

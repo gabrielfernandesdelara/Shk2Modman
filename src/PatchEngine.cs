@@ -155,9 +155,38 @@ namespace Shk2Modman
             return exePath != null && File.Exists(exePath + BackupSuffix);
         }
 
-        /// <summary>Copia o Shrek.exe.original por cima do Shrek.exe, desfazendo qualquer alteracao.</summary>
-        public static void RestoreBackup(string exePath)
+        /// <summary>
+        /// O backup so serve se for da mesma versao do jogo: tirando os mods instalados do exe atual,
+        /// o resultado tem que ser identico ao backup. Depois de uma atualizacao da Steam ele deixa de ser.
+        /// </summary>
+        public static bool BackupMatches(string exePath, IList<ModDef> mods)
         {
+            if (!HasBackup(exePath)) return false;
+            byte[] exe = File.ReadAllBytes(exePath);
+            byte[] backup = File.ReadAllBytes(exePath + BackupSuffix);
+            return SameBytes(WithoutMods(exe, mods), backup);
+        }
+
+        static byte[] WithoutMods(byte[] exe, IList<ModDef> mods)
+        {
+            byte[] clean = (byte[])exe.Clone();
+            foreach (ModDef m in mods)
+                if (PatchEngine.GetState(clean, m) == ModState.Installed) PatchEngine.Write(clean, m, false);
+            return clean;
+        }
+
+        static bool SameBytes(byte[] a, byte[] b)
+        {
+            if (a.Length != b.Length) return false;
+            for (int i = 0; i < a.Length; i++) if (a[i] != b[i]) return false;
+            return true;
+        }
+
+        /// <summary>Copia o Shrek.exe.original por cima do Shrek.exe, desfazendo qualquer alteracao.</summary>
+        public static void RestoreBackup(string exePath, IList<ModDef> mods)
+        {
+            // Backup de outra versao do jogo: restaurar traria um exe velho. Recusa.
+            if (!BackupMatches(exePath, mods)) throw new ModManagerException("errStaleBackup", Path.GetFileName(exePath + BackupSuffix));
             try { File.Copy(exePath + BackupSuffix, exePath, true); }
             catch (IOException ex) { throw new ModManagerException("errWrite", ex.Message); }
             catch (UnauthorizedAccessException ex) { throw new ModManagerException("errWrite", ex.Message); }
@@ -179,6 +208,12 @@ namespace Shk2Modman
         {
             byte[] exe = File.ReadAllBytes(exePath);
             ApplyResult result = new ApplyResult();
+            // Conflito entre os mods pedidos vem primeiro: e um erro mais claro do que "incompativel".
+            for (int i = 0; i < mods.Count; i++)
+                for (int j = i + 1; j < mods.Count; j++)
+                    if (wanted.Contains(mods[i].Id) && wanted.Contains(mods[j].Id) && PatchEngine.Overlaps(mods[i], mods[j]))
+                        throw new ModManagerException("errConflict", mods[i].Id + " + " + mods[j].Id);
+
             List<ModDef> toInstall = new List<ModDef>();
             List<ModDef> toRemove = new List<ModDef>();
             bool anyInstalled = false;
@@ -207,10 +242,11 @@ namespace Shk2Modman
             if (toInstall.Count == 0 && toRemove.Count == 0) return result;
 
             // O backup so e criado a partir de um exe sem nenhum mod conhecido aplicado.
+            // Se ja existe um backup de outra versao do jogo, ele e substituido.
             string backup = exePath + BackupSuffix;
-            if (!anyInstalled && !File.Exists(backup))
+            if (!anyInstalled && (!File.Exists(backup) || !SameBytes(exe, File.ReadAllBytes(backup))))
             {
-                File.Copy(exePath, backup);
+                File.Copy(exePath, backup, true);
                 result.BackupCreated = true;
             }
 

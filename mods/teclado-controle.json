@@ -9,7 +9,7 @@
     "pt": "O jogo junta o teclado/mouse e o primeiro controle no mesmo dispositivo, então os dois sempre controlam o Jogador 1.\nEste mod dá ao teclado um dispositivo próprio: com um controle conectado, o controle é o Jogador 1 e o teclado pode entrar como Jogador 2.\n\nCom um controle conectado, teclado e mouse não controlam mais o Jogador 1."
   },
   "version": "1.0",
-  "gameBuild": "CL 583774",
+  "gameBuild": "CL 583774 / CL 583916",
   "patches": [
     {
       "rva": "0x2FB282",

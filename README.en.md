@@ -55,7 +55,7 @@ Each mod is a `.json` file in the `mods` folder, holding the address of each pat
 - Finds `Shrek.exe` automatically through the Steam libraries, with an option to pick it manually
 - Installs and removes mods independently: removing one mod leaves the others in place
 - Saves the original executable as `Shrek.exe.original` before the first change
-- "Restore original" button, which puts the backup back and removes every mod at once
+- "Restore original" button, which puts the backup back and removes every mod at once; it refuses to restore a backup from another game version
 - Checks the bytes before writing: on another game version the mod shows as not compatible and nothing is changed
 - Warns when two mods change the same part of the game and does not let you tick both
 - Does not apply changes while the game is running
@@ -65,13 +65,16 @@ Each mod is a `.json` file in the `mods` folder, holding the address of each pat
 
 ## Official mods
 
-The project comes with **3 official mods**, made for the Steam version of the game (build CL 583774):
+The project comes with **4 official mods**, made for the Steam version of the game (builds CL 583774 and CL 583916):
 
 | Mod | What it does |
 |---|---|
 | Keyboard + Controller local co-op | The keyboard stops sharing Player 1 with the first controller and can join as another player |
 | Cutscenes without black bars | Removes the side and top bars in cutscenes; the bottom strip only shows while a subtitle is on screen |
 | Ultrawide without black bars | On screens wider than 16:9, the 3D scene fills the whole width without stretching the picture |
+| Keyboard + Controllers for Remote Play Together | For hosting local co-op through Steam Remote Play Together while playing on the keyboard: the keyboard is always Player 1 and the controllers, read through XInput, join as Players 2 to 4 |
+
+The two keyboard mods are alternatives and cannot be turned on at the same time. The Remote Play one was made for build CL 583916.
 
 ## How to add/create mods
 
@@ -163,6 +166,7 @@ Shk2Modman/
 ├── mods/                  # One .json file per official mod
 │   ├── cutscene-sem-barras.json
 │   ├── teclado-controle.json
+│   ├── teclado-controles-remote-play.json
 │   └── ultrawide.json
 ├── src/
 │   ├── Program.cs         # Entry point

@@ -286,7 +286,13 @@ namespace Shk2Modman
                 string text;
                 Color color = SystemColors.WindowText;
                 if (exePath == null) text = "";
-                else if (state == ModState.Incompatible) { text = T.S("stIncompatible"); color = SystemColors.GrayText; }
+                else if (state == ModState.Incompatible)
+                {
+                    // Um mod instalado que mexe no mesmo trecho faz este parecer incompativel: explica o motivo certo.
+                    ModDef blocker = InstalledOverlap(mod);
+                    text = blocker == null ? T.S("stIncompatible") : string.Format(T.S("stBlocked"), blocker.GetName(T.Lang));
+                    color = SystemColors.GrayText;
+                }
                 else if (item.Checked && state == ModState.NotInstalled) { text = T.S("stWillInstall"); pending = true; }
                 else if (!item.Checked && state == ModState.Installed) { text = T.S("stWillRemove"); pending = true; }
                 else text = T.S(state == ModState.Installed ? "stInstalled" : "stNotInstalled");
@@ -299,6 +305,14 @@ namespace Shk2Modman
             if (exePath == null) lblStatus.Text = T.S("noGame");
             else if (mods.Count == 0) lblStatus.Text = T.S("noMods");
             else lblStatus.Text = T.S(pending ? "pending" : "ready");
+        }
+
+        /// <summary>Mod instalado que altera o mesmo trecho do exe que "mod", ou null.</summary>
+        ModDef InstalledOverlap(ModDef mod)
+        {
+            foreach (ModDef other in mods)
+                if (other != mod && StateOf(other) == ModState.Installed && PatchEngine.Overlaps(mod, other)) return other;
+            return null;
         }
 
         void ShowDescription()
@@ -399,7 +413,7 @@ namespace Shk2Modman
             bool done = false;
             try
             {
-                GameExe.RestoreBackup(exePath);
+                GameExe.RestoreBackup(exePath, mods);
                 settings.Enabled = new List<string>();
                 settings.Save();
                 done = true;

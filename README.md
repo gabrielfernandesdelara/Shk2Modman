@@ -55,7 +55,7 @@ Cada mod é um arquivo `.json` na pasta `mods`, contendo o endereço de cada tre
 - Localiza o `Shrek.exe` automaticamente pelas bibliotecas da Steam, com opção de selecionar manualmente
 - Instala e remove mods de forma independente: tirar um mod não desfaz os outros
 - Salva o executável original como `Shrek.exe.original` antes da primeira alteração
-- Botão "Restaurar original", que coloca o backup de volta e remove todos os mods de uma vez
+- Botão "Restaurar original", que coloca o backup de volta e remove todos os mods de uma vez; ele se recusa a restaurar um backup de outra versão do jogo
 - Confere os bytes antes de gravar: se o jogo for de outra versão, o mod aparece como incompatível e nada é alterado
 - Avisa quando dois mods mexem no mesmo trecho do jogo e não deixa marcar os dois juntos
 - Não aplica mudanças com o jogo aberto
@@ -65,13 +65,16 @@ Cada mod é um arquivo `.json` na pasta `mods`, contendo o endereço de cada tre
 
 ## Mods oficiais
 
-O projeto vem com **3 mods oficiais**, feitos para a versão Steam do jogo (build CL 583774):
+O projeto vem com **4 mods oficiais**, feitos para a versão Steam do jogo (builds CL 583774 e CL 583916):
 
 | Mod | O que faz |
 |---|---|
 | Teclado + Controle no co-op local | O teclado deixa de dividir o Jogador 1 com o primeiro controle e pode entrar como outro jogador |
 | Cutscenes sem barras pretas | Remove as barras laterais e a de cima nas cutscenes; a faixa de baixo só aparece quando há legenda |
 | Ultrawide sem barras pretas | Em telas mais largas que 16:9, a cena 3D ocupa a largura toda, sem esticar a imagem |
+| Teclado + Controles para Remote Play Together | Para hospedar o co-op local pelo Steam Remote Play Together jogando no teclado: o teclado é sempre o Jogador 1 e os controles, lidos pelo XInput, entram como Jogadores 2 a 4 |
+
+Os dois mods de teclado são alternativas e não podem ficar ligados ao mesmo tempo. O de Remote Play foi feito para a build CL 583916.
 
 ## Como adicionar/criar mods
 
@@ -163,6 +166,7 @@ Shk2Modman/
 ├── mods/                  # Um arquivo .json por mod oficial
 │   ├── cutscene-sem-barras.json
 │   ├── teclado-controle.json
+│   ├── teclado-controles-remote-play.json
 │   └── ultrawide.json
 ├── src/
 │   ├── Program.cs         # Ponto de entrada
