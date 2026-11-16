@@ -65,7 +65,7 @@ Cada mod é um arquivo `.json` na pasta `mods`, contendo o endereço de cada tre
 
 ## Mods oficiais
 
-O projeto vem com **5 mods oficiais**, feitos para a versão Steam do jogo (builds CL 583774 e CL 583916):
+O projeto vem com **6 mods oficiais**, feitos para a versão Steam do jogo (builds CL 583774 e CL 583916):
 
 | Mod | O que faz |
 |---|---|
@@ -74,8 +74,9 @@ O projeto vem com **5 mods oficiais**, feitos para a versão Steam do jogo (buil
 | Ultrawide sem barras pretas | Em telas mais largas que 16:9, a cena 3D ocupa a largura toda, sem esticar a imagem |
 | Remote Play: teclado ou controle no Jogador 1 | Para hospedar o co-op local pelo Steam Remote Play Together tendo um controle seu: os controles são lidos pelo XInput, o Jogador 1 aceita teclado ou o seu controle (os ícones acompanham o último usado) e os outros controles entram como Jogadores 2 a 4 |
 | Remote Play: teclado como Jogador 1 | Para hospedar pelo Remote Play jogando só no teclado: o teclado é sempre o Jogador 1 e os controles, lidos pelo XInput, entram como Jogadores 2 a 4 |
+| Remote Play: qualquer controle (quem apertar primeiro é o Jogador 1) | Para hospedar o co-op local pelo Steam Remote Play Together com todo mundo no controle, qualquer que seja a vaga que a Steam der a cada um: os controles são lidos pelo XInput e viram os Jogadores 1 a 4 na ordem em que apertam um botão (o Jogador 1 também fica com o teclado) |
 
-Os três mods de teclado são alternativas: marcar um desmarca os outros. Os dois de Remote Play foram feitos para a build CL 583916.
+Os quatro mods de teclado e de Remote Play são alternativas: marcar um desmarca os outros. Os três de Remote Play foram feitos para a build CL 583916.
 
 ## Como adicionar/criar mods
 
@@ -166,6 +167,7 @@ Shk2Modman/
 ├── build.bat              # Compila o programa com o csc.exe do Windows
 ├── mods/                  # Um arquivo .json por mod oficial
 │   ├── cutscene-sem-barras.json
+│   ├── remote-play-qualquer-controle.json
 │   ├── remote-play-teclado-ou-controle.json
 │   ├── teclado-controle.json
 │   ├── teclado-controles-remote-play.json
