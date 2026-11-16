@@ -65,7 +65,7 @@ Each mod is a `.json` file in the `mods` folder, holding the address of each pat
 
 ## Official mods
 
-The project comes with **5 official mods**, made for the Steam version of the game (builds CL 583774 and CL 583916):
+The project comes with **6 official mods**, made for the Steam version of the game (builds CL 583774 and CL 583916):
 
 | Mod | What it does |
 |---|---|
@@ -74,8 +74,9 @@ The project comes with **5 official mods**, made for the Steam version of the ga
 | Ultrawide without black bars | On screens wider than 16:9, the 3D scene fills the whole width without stretching the picture |
 | Remote Play: keyboard or controller as Player 1 | For hosting local co-op through Steam Remote Play Together with a controller of your own: controllers are read through XInput, Player 1 takes the keyboard or your controller (the icons follow the last one used) and the other controllers join as Players 2 to 4 |
 | Remote Play: keyboard as Player 1 | For hosting through Remote Play while playing on the keyboard only: the keyboard is always Player 1 and the controllers, read through XInput, join as Players 2 to 4 |
+| Remote Play: any controller (first to press is Player 1) | For hosting local co-op through Steam Remote Play Together with every player on a controller, whatever slot Steam gives each one: controllers are read through XInput and become Players 1 to 4 in the order they press a button (Player 1 also keeps the keyboard) |
 
-The three keyboard mods are alternatives: ticking one unticks the others. The two Remote Play ones were made for build CL 583916.
+The four keyboard and Remote Play mods are alternatives: ticking one unticks the others. The three Remote Play ones were made for build CL 583916.
 
 ## How to add/create mods
 
@@ -166,6 +167,7 @@ Shk2Modman/
 ├── build.bat              # Builds the program with the Windows csc.exe
 ├── mods/                  # One .json file per official mod
 │   ├── cutscene-sem-barras.json
+│   ├── remote-play-qualquer-controle.json
 │   ├── remote-play-teclado-ou-controle.json
 │   ├── teclado-controle.json
 │   ├── teclado-controles-remote-play.json

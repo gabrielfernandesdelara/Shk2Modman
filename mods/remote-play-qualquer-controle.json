@@ -1,0 +1,39 @@
+{
+  "id": "remote-play-any-controller",
+  "name": {
+    "en": "Remote Play: any controller (first to press is Player 1)",
+    "pt": "Remote Play: qualquer controle (quem apertar primeiro é o Jogador 1)"
+  },
+  "description": {
+    "en": "For hosting local co-op through Steam Remote Play Together with every player on a controller, whatever slot Steam gives each controller.\nThe game normally reads controllers through GameInput, which ignores the guests' controllers. This mod reads all controllers through XInput and keeps keyboard and mouse working.\n\nPlayers are given out in the order the controllers press a button: the first one is Player 1 (together with the keyboard), the next ones are Players 2, 3 and 4. A controller that disconnects frees its player; press a button again to come back.\nUse this one if, with \"Remote Play: keyboard or controller as Player 1\", your own controller does not end up as Player 1.\n\nCannot be used together with the other keyboard mods.",
+    "pt": "Para hospedar o co-op local pelo Steam Remote Play Together com todo mundo no controle, qualquer que seja a vaga que a Steam der para cada controle.\nO jogo normalmente lê os controles pelo GameInput, que ignora os controles dos convidados. Este mod lê todos os controles pelo XInput e mantém teclado e mouse funcionando.\n\nOs jogadores são distribuídos na ordem em que os controles apertam um botão: o primeiro é o Jogador 1 (junto do teclado), os seguintes são os Jogadores 2, 3 e 4. Controle que desconecta solta o jogador; é só apertar um botão de novo para voltar.\nUse este se, com \"Remote Play: teclado ou controle no Jogador 1\", o seu controle não ficar como Jogador 1.\n\nNão pode ser usado junto com os outros mods de teclado."
+  },
+  "version": "1.0",
+  "gameBuild": "CL 583916",
+  "patches": [
+    {
+      "rva": "0x2FB1BB",
+      "note": "AllocateDevices: the first controller to press a button gets Player 1 (together with the keyboard), the next ones get 2, 3 and 4, whatever their XInput index; a controller that disconnects frees its player",
+      "original": "8bfd488d7120488d99c80100000f1f840000000000c743f0ffffffff40886b11488b0e4885c97477488b01ff5020a801746d897bf0c64311014c8b364c3973f874214d85f67409498b06498bceff5008488b4bf84c8973f84885c97406488b01ff50104c8b76084c3933741f4d85f67409498b06498bceff5008488b0b4c89334885c97406488b01ff5010488b46104889430840386b10752ec6431002eb28488b4bf848896bf84885c97406488b01ff5010488b0b48892b4885c97406488b01ff501048896b0885ff75428b43f083f8ff741783f8037712ffc74881c3080100004883c618e92bffffff896bf0c643110140386b107516c6431001ffc74881c3080100004883c618e908ffffffffc74881c3080100004883c61883ff040f8cf2feffff",
+      "patched": "488d99b801000031f64889df807f040074218b0f488d5730e834de070085c07506c6472101eb30c647040085f67504c647200185f67516c70700000000c6472101807f20007510c6472001eb0ac707ffffffffc64721004881c708010000ffc683fe047ca731f64889dfb904000000807f04007404393774744881c708010000ffc975eb69fe080100004801df807f05007405fe4f05eb5589f1488d5730e8aedd070085c07406c647053ceb4066837f340074394889df31c9807f040074104881c708010000ffc183f9047ceceb1ec64704018937c647210185c97406c6472002eb0a807f20007504c6472002ffc683fe040f8c6fffffffeb29cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    {
+      "rva": "0x2FB860",
+      "note": "ProcessAllAllocatedDevices: only run ProcessGamepad for players that have a controller",
+      "original": "4839841fc0010000",
+      "patched": "38841fbc01000090"
+    },
+    {
+      "rva": "0x2FBA76",
+      "note": "ProcessGamepad: read the player's controller through XInput",
+      "original": "488b4a1033c00f57c048894424300f1144242089442438488bda488b01488d542420ff9088000000f30f10442424f30f100d509816000f2fc1720bc6432002c683b300000001f30f1183e0000000f30f104424280f2fc1720bc6432002c683b400000001f30f10154e5e15000f57dbf30f1183e4000000f30f104424300f2fd8760d0f57c2f30f1183c4000000eb08f30f1183c0000000f30f1083c40000000f2fc1720dc6432002c683a000000001eb18f30f1083c00000000f2fc1720bc6432002c6839f00000001f30f1044242c0f2fd8760d0f57c2f30f1183cc000000eb08f30f1183c8000000f30f1083cc0000000f2fc1720dc6432002c683a200000001eb18f30f1083c80000000f2fc1720bc6432002c683a100000001f30f104424380f2fd8760d0f57c2f30f1183d4000000eb08f30f1183d0000000f30f1083d40000000f2fc1720dc6432002c683a400000001eb18f3",
+      "patched": "4889d331c0488944242048894424288b0b488d542420e87bd5070085c00f85890000008a43208844243066c7432002010fb75424244c8d0576000000b90e000000410fb600450fb648010fa3c2420f92040b4983c002ffc975e731c9488d53204c8d442424e8702c000066837c242400753a0fb74424263c1e773180fc1e772c4c8d442428b904000000410fbf0089c2f7da0f4cd081fa401f0000770f4983c002ffc975e58a4424308843204883c4405bc30ca70da80ea90faa00ab01ac03ad02ae06af07b008b109b205b504b6cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    {
+      "rva": "0x2FD690",
+      "note": "SetVibration: rumble the controller bound to the player",
+      "original": "40534883ec500f297424400f28f34863c24869d8080100000f297c24300f28fa80bc0bd801000002757f488b9c0bc001000048897c24604885db7451488b0348",
+      "patched": "83fa03773369c20801000080bc01bc010000007423448b8c01b8010000f30f115c2420f30f115424184989e34883ec380f28c2e9be1b0000b803000000c3cccc"
+    }
+  ]
+}

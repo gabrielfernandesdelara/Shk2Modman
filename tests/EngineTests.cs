@@ -29,15 +29,17 @@ static class EngineTests
         List<string> errors = new List<string>();
         List<ModDef> mods = ModLoader.LoadFolder(modsFolder, errors);
         Check(errors.Count == 0, "todos os .json carregam (" + string.Join("; ", errors.ToArray()) + ")");
-        Check(mods.Count == 5, "5 mods carregados (" + mods.Count + ")");
+        Check(mods.Count == 6, "6 mods carregados (" + mods.Count + ")");
         // o mod do Remote Play e uma alternativa ao do teclado: e testado separado, no fim
         ModDef remote = mods.Find(delegate(ModDef m) { return m.Id == "keyboard-controller-remote-play"; });
         ModDef keyboard = mods.Find(delegate(ModDef m) { return m.Id == "keyboard-controller"; });
         Check(remote != null && keyboard != null && PatchEngine.Overlaps(remote, keyboard), "mod do Remote Play conflita com o do teclado");
         ModDef shared = mods.Find(delegate(ModDef m) { return m.Id == "remote-play-shared-player1"; });
         Check(shared != null && PatchEngine.Overlaps(shared, remote) && PatchEngine.Overlaps(shared, keyboard), "os tres mods de teclado conflitam entre si");
+        ModDef anyPad = mods.Find(delegate(ModDef m) { return m.Id == "remote-play-any-controller"; });
+        Check(anyPad != null && PatchEngine.Overlaps(anyPad, remote) && PatchEngine.Overlaps(anyPad, keyboard) && PatchEngine.Overlaps(anyPad, shared), "o mod de qualquer controle conflita com os tres de teclado");
         List<ModDef> all = mods;
-        mods = mods.FindAll(delegate(ModDef m) { return m != remote && m != shared; });
+        mods = mods.FindAll(delegate(ModDef m) { return m != remote && m != shared && m != anyPad; });
         string original = Hash(exe);
 
         Dictionary<string, ModState> states = GameExe.ReadStates(exe, mods);
@@ -93,6 +95,14 @@ static class EngineTests
         Check(swap.Removed == 1 && swap.Installed == 1 && GameExe.ReadStates(exe, all)[remote.Id] == ModState.Installed, "troca uma variante pela outra em um Aplicar");
         GameExe.ApplySelection(exe, all, new List<string>());
         Check(Hash(exe) == original, "remover as variantes devolve o original");
+
+        // variante "qualquer controle": instala com outro mod, troca pela do Jogador 1 compartilhado e sai limpo
+        Check(GameExe.ApplySelection(exe, all, new List<string> { anyPad.Id, mods[0].Id }).Installed == 2, "instala a variante qualquer controle com outro mod");
+        Console.WriteLine("HASH any-controller " + Hash(exe));
+        ApplyResult swapAny = GameExe.ApplySelection(exe, all, new List<string> { shared.Id, mods[0].Id });
+        Check(swapAny.Removed == 1 && swapAny.Installed == 1 && GameExe.ReadStates(exe, all)[shared.Id] == ModState.Installed, "troca a variante qualquer controle pela do Jogador 1 compartilhado em um Aplicar");
+        GameExe.ApplySelection(exe, all, new List<string>());
+        Check(Hash(exe) == original, "remover a variante qualquer controle devolve o original");
 
         // backup de outra versao do jogo: nao restaura, e e trocado na proxima instalacao
         byte[] stale = File.ReadAllBytes(exe + ".original");
